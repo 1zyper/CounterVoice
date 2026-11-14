@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counter-Voice · Nasıl Kullanılır</title>
+<link rel="icon" href="Logo.ico">
+<style>
+:root{
+  --bg:#0c0c0e; --panel:#141417; --panel2:#1b1b20; --line:#2c2e35; --text:#e9eaee; --muted:#8a8f9c;
+  --red:#de4044; --red-d:#461b1e; --amber:#e8a93a; --green:#46c27a;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){
+  :root{--bg:#f4f4f6;--panel:#fff;--panel2:#eeeef1;--line:#d9dae0;--text:#17181c;--muted:#5d6270;--red-d:#fbe3e4;color-scheme:light}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background-image:radial-gradient(ellipse 60% 40% at 80% -5%,rgba(222,64,68,.16),transparent 70%)}
+a{color:var(--red);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:6px}
+
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:12px 28px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;letter-spacing:.2px}
+.brand img{width:34px;height:34px;border-radius:9px;border:2px solid var(--red);padding:2px;background:var(--red-d)}
+.brand b{color:var(--red)}
+.top nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.top nav a{color:var(--muted);padding:6px 12px;border-radius:8px;font-size:14px}
+.top nav a:hover{background:var(--panel2);color:var(--text);text-decoration:none}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+.hero{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:64px 0 44px}
+.hero h1{font-size:clamp(34px,5.4vw,58px);line-height:1.08;margin:0 0 16px;letter-spacing:-1px}
+.hero h1 span{color:var(--red)}
+.hero p{color:var(--muted);max-width:56ch;margin:0 0 22px;font-size:18px}
+.logo-big{width:168px;height:168px;border-radius:34px;border:4px solid var(--red);background:var(--red-d);padding:18px;
+  box-shadow:0 0 0 8px rgba(222,64,68,.12),0 24px 60px -18px rgba(222,64,68,.55)}
+.btn{display:inline-block;background:var(--red);color:#fff;padding:11px 20px;border-radius:10px;font-weight:600;
+  border-bottom:4px solid #9c2428;transition:transform .12s}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);border-bottom-width:4px;margin-left:8px}
+
+section{margin-top:56px}
+h2{font-size:28px;margin:0 0 6px;letter-spacing:-.4px;display:flex;align-items:center;gap:12px}
+h2::before{content:"";width:6px;height:26px;background:var(--red);border-radius:3px}
+.lead{color:var(--muted);margin:0 0 22px;max-width:70ch}
+h3{margin:0 0 8px;font-size:18px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:22px}
+.card p{margin:0 0 10px;color:var(--muted)}
+.card p:last-child{margin:0}
+.card p b,.card li b{color:var(--text)}
+code,kbd{font-family:Consolas,"Cascadia Mono",monospace;font-size:.88em;background:var(--panel2);border:1px solid var(--line);
+  padding:1px 7px;border-radius:6px;color:var(--text)}
+kbd{border-bottom-width:3px}
+
+.req{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.req .card{position:relative}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.tag.ok{background:rgba(70,194,122,.15);color:var(--green)}
+.tag.warn{background:rgba(232,169,58,.15);color:var(--amber)}
+.tag.red{background:rgba(222,64,68,.16);color:var(--red)}
+ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+li{margin:4px 0}
+
+.check{list-style:none;padding:0;margin:14px 0 0}
+.check li{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin:8px 0;cursor:pointer;color:var(--text);transition:border-color .15s,background .15s}
+.check li:hover{border-color:var(--red)}
+.check .box{flex:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--muted);display:grid;place-items:center;margin-top:2px;
+  font-size:14px;color:transparent;transition:all .15s}
+.check li.on{background:rgba(70,194,122,.08);border-color:rgba(70,194,122,.5)}
+.check li.on .box{background:var(--green);border-color:var(--green);color:#08140d}
+.check small{display:block;color:var(--muted);margin-top:2px}
+.progress{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:14px;border:1px solid var(--line)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff7a7e);transition:width .3s}
+#pt{color:var(--muted);font-size:14px;margin-top:6px}
+
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps>li{counter-increment:s;position:relative;padding:0 0 22px 56px;border-left:2px solid var(--line);margin-left:18px;color:var(--muted)}
+.steps>li:last-child{border-color:transparent;padding-bottom:0}
+.steps>li::before{content:counter(s);position:absolute;left:-19px;top:-2px;width:36px;height:36px;border-radius:12px;background:var(--red);
+  color:#fff;font-weight:700;display:grid;place-items:center;border-bottom:3px solid #9c2428}
+.steps h3{color:var(--text);margin-top:0}
+
+.alert{border-radius:16px;padding:22px 24px;border:1px solid;display:flex;gap:18px;margin-top:6px}
+.alert .ic{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:24px;font-weight:800}
+.alert.vac{background:rgba(222,64,68,.09);border-color:rgba(222,64,68,.55)}
+.alert.vac .ic{background:var(--red);color:#fff}
+.alert h3{margin:0 0 6px;color:var(--red);font-size:20px}
+.alert p{margin:0 0 10px}
+.alert ul{color:var(--text)}
+.alert.info{background:rgba(232,169,58,.08);border-color:rgba(232,169,58,.45)}
+.alert.info .ic{background:var(--amber);color:#1a1200}
+.alert.info h3{color:var(--amber)}
+
+table{width:100%;border-collapse:collapse;font-size:15px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;background:var(--panel2)}
+tr:last-child td{border-bottom:0}
+td:first-child{white-space:nowrap;font-weight:600}
+
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:0 18px}
+summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--red);font-size:22px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{margin:0 0 16px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:26px;text-align:center;color:var(--muted);font-size:14px}
+footer img{width:22px;height:22px;vertical-align:middle;margin-right:6px}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;text-align:left}.logo-big{width:110px;height:110px;order:-1}
+  header.top{padding:10px 16px}.top nav{display:none}
+  .alert{flex-direction:column;gap:12px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><img src="Logo.ico" alt="Counter-Voice logosu"> Counter<b>-Voice</b></div>
+  <nav>
+    <a href="#gereksinim">Gereksinimler</a>
+    <a href="#baslangic">Başlangıç</a>
+    <a href="#sesler">Sesler</a>
+    <a href="#afk">AFK</a>
+    <a href="#ayarlar">Ayarlar</a>
+    <a href="#sss">Sorun giderme</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div>
+    <h1>Counter-Voice<br><span>nasıl kullanılır?</span></h1>
+    <p>CS2'de tek tuşla ses çal, ölünce ve öldürünce otomatik ses tetikle, AFK modunu aç. Bu sayfa kurulumdan sorun gidermeye kadar her şeyi anlatır.</p>
+    <a class="btn" href="#gereksinim">Kuruluma başla</a><a class="btn ghost" href="#afk">AFK uyarısı</a>
+  </div>
+  <img class="logo-big" src="Logo.ico" alt="Counter-Voice">
+</div>
+
+<!-- GEREKSİNİMLER -->
+<section id="gereksinim">
+  <h2>Önce bunlar hazır olmalı</h2>
+  <p class="lead">Uygulama iki şeye dayanır: ses aktarımı için <b>VB-Cable</b> ve çalışması için <b>.NET 8</b>. İkisinin durumu aşağıda.</p>
+  <div class="req">
+    <div class="card">
+      <span class="tag ok">Uygulama içinde gelir</span>
+      <h3>VB-Audio Virtual Cable bağlantısı</h3>
+      <p>Sesler mikrofon olarak oyuna bu sanal kablo üzerinden gider. Kablo yoksa sesler <b>sadece hoparlörden</b> çalar, oyundaki diğer oyuncular duymaz.</p>
+      <ul>
+        <li>Kablo uygulamanın içine gömülüdür. İlk açılışta kurulum ekranı otomatik kurmayı dener.</li>
+        <li>Kurulumu bir kez reddedersen tekrar tekrar sormaz. Gerekirse kabloyu elle kur.</li>
+        <li>Kurulumdan sonra bilgisayarı <b>yeniden başlatman</b> gerekebilir.</li>
+        <li>Ayarlar'da mikrofon olarak <code>CABLE Input</code> seçili olmalı. CS2'de mikrofon olarak <code>CABLE Output</code> seç.</li>
+        <li>Ayarlar'da “Sanal kablo bulunamadı” yazıyorsa kablo kurulu değildir.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag warn">Sürüme bağlı</span>
+      <h3>.NET 8 bağlantısı</h3>
+      <p>Counter-Voice .NET 8 (Windows Forms) ile yazıldı. Gerekip gerekmediği exe'nin nasıl derlendiğine bağlı:</p>
+      <ul>
+        <li><b>Tek parça (self-contained) exe:</b> .NET kurmana gerek yok. Boyutu yaklaşık 60–70 MB.</li>
+        <li><b>Küçük exe:</b> bilgisayarda <b>.NET 8 Desktop Runtime</b> kurulu olmalı.</li>
+        <li>Uygulama hiç açılmıyorsa ilk suçlu eksik .NET'tir. Microsoft'un sitesinden “.NET 8 Desktop Runtime (x64)” indirip kur.</li>
+        <li>Kaynak koddan çalıştırmak için <code>.NET 8 SDK</code> ve <code>dotnet run</code> yeter.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag red">Ağ</span>
+      <h3>Bağlantılar</h3>
+      <ul>
+        <li><b>CS2 bağlantısı:</b> yerel <code>127.0.0.1:3476</code> adresi. İnternet gerekmez, güvenlik duvarı sormazsa dokunma.</li>
+        <li><b>Steam profil resmi:</b> steamcommunity.com'dan çekilir ve önbelleğe alınır. İnternet yoksa son görülen profil gösterilir.</li>
+        <li>Windows 10/11, 64 bit.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Hızlı kontrol listesi</h3>
+    <p>Tıkla, işaretle. İşaretlerin bu tarayıcıda hatırlanır.</p>
+    <ul class="check" id="cl">
+      <li data-k="net"><span class="box">✓</span><div>.NET hazır<small>Tek parça exe kullanıyorsan otomatik işaretli sayabilirsin. Değilse .NET 8 Desktop Runtime kur.</small></div></li>
+      <li data-k="cable"><span class="box">✓</span><div>VB-Cable kuruldu<small>Ayarlar sayfasında kablo adı görünüyor, “bulunamadı” yazmıyor.</small></div></li>
+      <li data-k="mic"><span class="box">✓</span><div>Uygulamada mikrofon: <code>CABLE Input</code><small>Ayarlar → Mikrofon</small></div></li>
+      <li data-k="csmic"><span class="box">✓</span><div>CS2'de mikrofon: <code>CABLE Output</code><small>CS2 → Ayarlar → Ses → Mikrofon cihazı</small></div></li>
+      <li data-k="gsi"><span class="box">✓</span><div>CS2 bir kez kapatıp açıldı<small>Bağlantı dosyası ilk kez yazıldıysa şart.</small></div></li>
+    </ul>
+    <div class="progress"><i id="pb"></i></div><div id="pt"></div>
+  </div>
+</section>
+
+<!-- BAŞLANGIÇ -->
+<section id="baslangic">
+  <h2>İlk kullanım</h2>
+  <p class="lead">Sırayla yap, 5 dakikada hazırsın.</p>
+  <ol class="steps">
+    <li><h3>Uygulamayı aç</h3>İlk çalıştırmada kurulum ekranı gelir. Masaüstü kısayolunu ve gerekirse VB-Cable'ı kurar. Bitince ana pencere açılır.</li>
+    <li><h3>CS2 bağlantısını kur</h3>Uygulama, Steam'deki CS2 klasörüne <code>gamestate_integration_countervoice.cfg</code> dosyasını kendisi yazar. Dosya ilk kez yazıldıysa CS2'yi <b>bir kere kapatıp aç</b>. Ana Sayfa'da profil resmin, adın ve bağlantı durumun görünür.</li>
+    <li><h3>Mikrofonu ayarla</h3>Ayarlar'da mikrofon olarak <code>CABLE Input</code>'u seç. CS2'de mikrofon olarak <code>CABLE Output</code>'u seç.</li>
+    <li><h3>Ses ekle</h3>Sesler sekmesinden <b>SES EKLE</b>'ye bas, dosyayı seç, kısayol ata.</li>
+    <li><h3>Dene</h3>CS2 içindeyken kısayola bas. Ses hem sana hem takıma gider.</li>
+  </ol>
+  <div class="card" style="margin-top:18px">
+    <h3>Ana Sayfa</h3>
+    <p>Steam profil resmin, oyuncu adın, bağlantı durumun ve oturumdaki öldürme / ölüm sayın burada. CS2 kapalıysa sayaçların yerinde <b>BAŞLAT</b> butonu çıkar, tıklayınca Steam'den CS2'yi açar.</p>
+    <p><b>Otomatik Sesler:</b> <b>ÖLÜNCE</b> ve <b>ÖLDÜRÜNCE</b> için birer ses seç. <b>DENE</b> ile önceden dinle.</p>
+  </div>
+</section>
+
+<!-- SESLER -->
+<section id="sesler">
+  <h2>Sesler</h2>
+  <p class="lead">Her sesin kendi kısayolu, kırpması ve ses düzeyi vardır.</p>
+  <div class="grid">
+    <div class="card"><h3>Kısayol atama</h3><p>Kutuya tıkla, tuşa bas. Örnek: <kbd>Alt</kbd> + <kbd>4</kbd>. Kısayollar uygulama arka plandayken ve oyundayken de çalışır.</p><p>Tuş atanırken kısayollar geçici olarak kapanır.</p></div>
+    <div class="card"><h3>Kırpma ve ses düzeyi</h3><p>Dalga formunda başlangıç ve bitişi seç. Ses düzeyi <b>%0–200</b> arası, her ses için ayrı. <b>%100'ün üstü sarı</b> görünür ve ses bozulabilir.</p></div>
+    <div class="card"><h3>Düzenle (kalem)</h3><p>Sesin tam hali dalga formunda yeniden gelir, önceki kırpma seçili durur. İsim, kırpma ve düzeyi sonradan değiştirebilirsin. Kırpılanların tam kopyası saklanır.</p></div>
+    <div class="card"><h3>Otomatik sesler</h3><p>Ölünce ve öldürünce çalacak sesler kısayolla çalınamaz, sadece oyun olayında tetiklenir.</p></div>
+  </div>
+</section>
+
+<!-- AFK -->
+<section id="afk">
+  <h2>AFK modu</h2>
+  <p class="lead">Sol şeritteki ay simgesi. Kısayol tuşuna bas, AFK açılır. Tekrar bas, kapanır.</p>
+
+  <div class="alert vac" role="alert">
+    <div class="ic">!</div>
+    <div>
+      <h3>VACNet uyarısı</h3>
+      <p><b>AFK modu rastgele klavye ve fare girdisi gönderir.</b> Valve'ın yapay zekâ tabanlı VACNet sistemi oyuncu davranışlarını inceler. Hareketin düzensiz, tekrarlı ya da insana benzemeyen görünürse, hesabın <b>Overwatch incelemesine düşebilir</b> ve rapor edildiğinde ceza riski doğar.</p>
+      <ul>
+        <li>AFK modu <b>kendi sorumluluğundadır</b>. Hiçbir güvence verilemez.</li>
+        <li>Ana hesabında uzun süre, her maçta kullanma.</li>
+        <li>Rota kaydı ve rastgele davranışlar açıkken desenler tekrar edebilir. Tekrar, tespit riskini artırır.</li>
+        <li>Rekabetçi ve Premier maçlarda ekstra dikkatli ol. Takım arkadaşların seni rapor edebilir.</li>
+        <li>Uygulama ekranı <b>okumaz</b> ve oyun belleğine dokunmaz. Bu, davranışsal tespitten korunduğun anlamına gelmez.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card"><h3>Gösterge</h3><p>AFK açıkken ekranın <b>sağ üst köşesinde</b> “AFK MOD AKTİF” yazısı çıkar. CS2 içindeyken de görünür. <b>Pencereli tam ekran</b> modunda çalışır.</p></div>
+    <div class="card"><h3>Ne zaman çalışır?</h3><p>Sadece CS2 ön plandayken, oyuncu canlıyken ve oyun içindeyken tuşa basar. Menüde, ölünce ve round başı donma süresinde <b>bekler</b>.</p></div>
+  </div>
+
+  <h3 style="margin:26px 0 10px">Özellikler (tek tek aç / kapa)</h3>
+  <div class="tw"><table>
+    <tr><th>Özellik</th><th>Ne yapar?</th></tr>
+    <tr><td>Harita rotası</td><td>Haritaya özel kayıtlı rotayı her round başında oynatır.</td></tr>
+    <tr><td>Zıplama</td><td>Ara ara zıplar.</td></tr>
+    <tr><td>Etrafa bakınma</td><td>Fareyi rastgele çevirir.</td></tr>
+    <tr><td>Düşman görmüş gibi ateş</td><td>Gerçek hedef görmez, rastgele ateş eder.</td></tr>
+    <tr><td>Oto silah al</td><td>Round başında <kbd>F3</kbd> (Otomatik Satın Al) ve <kbd>F4</kbd> (Yeniden Al) tuşlarına basar.</td></tr>
+    <tr><td>Silah değiştirme</td><td>Ara ara silah değiştirir.</td></tr>
+  </table></div>
+
+  <div class="alert info" style="margin-top:16px">
+    <div class="ic">i</div>
+    <div>
+      <h3>Oto silah al için bir kez ayar</h3>
+      <p>F3 için CS2 konsoluna bir kere şunu yaz:</p>
+      <p><code>cl_autobuy "ak47 m4a1 vesthelm defuser"</code></p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Rota kaydı</h3>
+    <p>Kayıt tuşuna bas, CS2'de rotanı yürü (<kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>, zıpla, çömel, fare bakışı), tekrar bas. Harita adıyla kaydedilir, örneğin <code>de_mirage.txt</code>. Kayıtlar <code>%AppData%\CounterVoice\routes</code> klasöründe durur. Kayıt sırasında AFK modu otomatik durur. Ekranda “ROTA KAYDEDİLİYOR” görünür.</p>
+    <p>Kısayol tuşunu <kbd>Backspace</kbd> ya da <kbd>Delete</kbd> ile kaldırabilirsin.</p>
+  </div>
+</section>
+
+<!-- AYARLAR -->
+<section id="ayarlar">
+  <h2>Ayarlar</h2>
+  <p class="lead">Değiştirdiğin an kaydedilir. Sağ üstte “Kaydedildi” bildirimi çıkar, gelen kutusuna düşmez.</p>
+  <div class="grid">
+    <div class="card"><h3>Hoparlör ses seviyesi</h3><p>Ses mikrofona giderken hoparlörden de çalar. <b>0</b> yaparsan hoparlörde çalmaz.</p></div>
+    <div class="card"><h3>Mikrofon</h3><p>Sesin verileceği cihaz. Boş bırakırsan sanal kabloyu kendisi bulur.</p></div>
+    <div class="card"><h3>Gerçek mikrofonumu da karıştır</h3><p>Normal mikrofonun kablodaki sesin yanına karışır, oyunda hem seni hem sesi duyarlar. <b>Sadece sanal kablo seçiliyken</b> çalışır, yankı olmaması için.</p></div>
+    <div class="card"><h3>Konuşma tuşu</h3><p>Ses çalarken CS2'deki bas-konuş tuşu kendiliğinden basılı tutulur, ses bitince bırakılır. Tuş CS2 ayarından okunur, sen değiştirirsen algılar.</p><ul><li><b>Otomatik:</b> CS2'den okur.</li><li><b>Elle:</b> tuşu kendin seçersin.</li><li><b>Kapalı:</b> hiç basmaz.</li></ul><p style="margin-top:8px">Açık mikrofon (<code>voice_vox 1</code>) kullanıyorsan tuşa basmaz. Sadece CS2 ön plandayken basar.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>Sistem tepsisi ve veriler</h3>
+    <p>Pencerenin X'ine basınca uygulama kapanmaz, <b>tepsiye iner</b>. Tepsi simgesine tıkla: açılır. Sağ tık → <b>Çıkış</b>: tamamen kapanır. Uygulama tek kopya çalışır.</p>
+    <p>Verilerin <code>%AppData%\CounterVoice</code> içinde: <code>sounds.json</code>, <code>settings.json</code>, <code>notifications.json</code>.</p>
+  </div>
+</section>
+
+<!-- SSS -->
+<section id="sss">
+  <h2>Sorun giderme</h2>
+  <p class="lead">Takıldığın yeri aç.</p>
+  <details><summary>Uygulama hiç açılmıyor</summary><p>Büyük ihtimalle .NET 8 Desktop Runtime kurulu değil. x64 sürümünü kurup tekrar dene. Uygulama zaten açıksa tepsiye inmiş olabilir, tepsi simgesine bak.</p></details>
+  <details><summary>Ayarlar'da “Sanal kablo bulunamadı” yazıyor</summary><p>VB-Cable kurulu değil ya da kurulumdan sonra yeniden başlatılmadı. Bilgisayarı yeniden başlat, hâlâ yoksa VB-Audio Virtual Cable'ı elle kur.</p></details>
+  <details><summary>Ses çalıyor ama oyundakiler duymuyor</summary><p>CS2'de mikrofon cihazı <code>CABLE Output</code> olmalı. Uygulamada ise <code>CABLE Input</code>. Konuşma tuşu modunu ve CS2'nin açık mikrofon ayarını da kontrol et.</p></details>
+  <details><summary>Ana Sayfa'da CS2 bağlanmıyor</summary><p>CS2'yi kapatıp yeniden aç. Bağlantı dosyası ilk kez yazıldıysa bu şart. Steam'in CS2'yi başka bir kütüphane klasörüne kurduysa uygulama bulamayabilir.</p></details>
+  <details><summary>Profil resmi görünmüyor</summary><p>Steam profilin gizliyse harf simgesi görünür. Profili herkese açık yap.</p></details>
+  <details><summary>Kısayol çalışmıyor</summary><p>Aynı tuş başka bir uygulamada kayıtlı olabilir. Başka bir kombinasyon dene (örneğin <kbd>Alt</kbd> + <kbd>4</kbd>).</p></details>
+  <details><summary>Ses cızırdıyor, bozuk çıkıyor</summary><p>Ses düzeyi %100'ün üstündedir. Sarı göstergeyi %100'e ya da altına çek.</p></details>
+</section>
+
+</main>
+
+<footer><img src="Logo.ico" alt=""> Counter-Voice · Nasıl kullanılır</footer>
+
+<script>
+(function(){
+  var K="cv-help-check", st={};
+  try{st=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+  var items=document.querySelectorAll("#cl li");
+  function paint(){
+    var n=0;
+    items.forEach(function(li){var on=!!st[li.dataset.k];li.classList.toggle("on",on);if(on)n++});
+    document.getElementById("pb").style.width=(n/items.length*100)+"%";
+    document.getElementById("pt").textContent=n===items.length?"Her şey hazır. İyi oyunlar!":n+" / "+items.length+" adım tamam";
+  }
+  items.forEach(function(li){
+    li.tabIndex=0;
+    function t(){st[li.dataset.k]=!st[li.dataset.k];try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}paint()}
+    li.addEventListener("click",t);
+    li.addEventListener("keydown",function(e){if(e.key===" "||e.key==="Enter"){e.preventDefault();t()}});
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
