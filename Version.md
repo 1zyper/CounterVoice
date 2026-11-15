@@ -1,4 +1,5 @@
-Version: 54
-Download: [https://github.com/1zyper/CounterVoice/releases/latest/download/CounterVoice.exe](https://www.dropbox.com/scl/fi/8ezrss0uo9cba8muq8fr5/runtimeconfig.template.json?rlkey=9zmovvpj6t3sr62vrl50wxwxy&st=m2y63d0s&dl=1)
+Version: 52
+Download: [https://www.dropbox.com/scl/fi/XXXXXXXX/CounterVoice.exe?rlkey=YYYYYYYY&st=ZZZZZZZZ&dl=1](https://www.dropbox.com/scl/fi/cnhuy0v00c8vog8yewj6u/CounterVoice.exe?rlkey=i0kykz6dufmbmhw0jnoov79an&st=jdq7qgqs&dl=1)
 Notes:
-- Yenilik 2
+- Otomatik güncelleme: başlık çubuğundaki indirme simgesinden tek tıkla güncelle
+- Güncellemeleri elle denetle butonu
