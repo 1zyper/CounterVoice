@@ -1,4 +1,4 @@
-Version: 53
+Version: 54
 Download: https://github.com/1zyper/CounterVoice/releases/latest/download/CounterVoice.exe
 Notes:
-- Yenilik 1
+- Yenilik 2
